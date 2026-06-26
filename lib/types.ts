@@ -1,0 +1,139 @@
+export type MenuItem = {
+  label: string
+  label_en: string
+  href: string
+}
+
+export type Category = {
+  id: string
+  name: string
+  slug: string
+  description: string | null
+  image_url: string | null
+  created_at: string
+}
+
+export type Product = {
+  id: string
+  name: string
+  slug: string
+  description: string | null
+  price: number
+  compare_price: number | null
+  images: string[]
+  category_id: string | null
+  category?: Category
+  stock: number
+  sku: string | null
+  status: 'active' | 'draft' | 'archived'
+  featured: boolean
+  is_new: boolean
+  tags: string[]
+  created_at: string
+  updated_at: string
+}
+
+export type OrderStatus = 'pending' | 'confirmed' | 'processing' | 'shipped' | 'delivered' | 'cancelled' | 'refunded'
+export type PaymentStatus = 'pending' | 'paid' | 'failed' | 'refunded'
+export type PaymentMethod = 'stripe' | 'vnpay' | 'momo' | 'cod'
+
+export type OrderItem = {
+  id: string
+  order_id: string
+  product_id: string
+  product?: Product
+  quantity: number
+  price: number
+  product_name: string
+  product_image: string | null
+}
+
+export type ShippingAddress = {
+  full_name: string
+  phone: string
+  email: string
+  address: string
+  city: string
+  district: string
+  ward: string
+  country: string
+}
+
+export type Order = {
+  id: string
+  order_number: string
+  user_id: string | null
+  status: OrderStatus
+  payment_status: PaymentStatus
+  payment_method: PaymentMethod
+  subtotal: number
+  shipping_fee: number
+  discount: number
+  total: number
+  shipping_address: ShippingAddress
+  notes: string | null
+  items?: OrderItem[]
+  created_at: string
+  updated_at: string
+}
+
+export type UserProfile = {
+  id: string
+  email: string
+  full_name: string | null
+  phone: string | null
+  avatar_url: string | null
+  role: 'customer' | 'admin'
+  created_at: string
+}
+
+export type Campaign = {
+  id: string
+  name: string
+  description: string | null
+  type: 'percentage' | 'fixed' | 'free_shipping' | 'bogo'
+  value: number
+  code: string | null
+  min_order_value: number
+  max_uses: number | null
+  uses_count: number
+  start_date: string
+  end_date: string | null
+  status: 'active' | 'inactive' | 'expired'
+  created_at: string
+}
+
+export type StoreSettings = {
+  id: string
+  store_name: string
+  logo_url: string | null
+  favicon_url: string | null
+  banner_url: string | null
+  banner_text: string | null
+  primary_color: string
+  secondary_color: string
+  accent_color: string
+  font_heading: string
+  font_body: string
+  hero_badge: string | null
+  hero_title: string
+  hero_title_image_url: string | null
+  hero_subtitle: string
+  hero_image_url: string | null
+  hero2_title: string | null
+  hero2_subtitle: string | null
+  hero2_image_url: string | null
+  hero2_cta: string | null
+  contact_email: string | null
+  contact_phone: string | null
+  address: string | null
+  social_instagram: string | null
+  social_facebook: string | null
+  menu_items: MenuItem[] | null
+  updated_at: string
+}
+
+export type CartItem = {
+  product: Product
+  quantity: number
+}
