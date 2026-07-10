@@ -1,36 +1,58 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Kha
+
+An online store (storefront + admin panel) built with Next.js, Supabase (auth & database), and Stripe (payments).
+
+🔗 **Live demo:** [https://kha-six.vercel.app/](https://kha-six.vercel.app/)
+
+## Features
+
+- Storefront with product listing, cart, and Stripe checkout
+- User sign up/sign in via Supabase Auth
+- Admin dashboard for managing products
 
 ## Getting Started
 
-First, run the development server:
+Install dependencies and run the dev server:
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Environment Variables
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Create a `.env.local` file in the project root with the variables required for Supabase and Stripe (see `lib/` and `supabase/` for the keys in use), for example:
 
-## Learn More
+```bash
+NEXT_PUBLIC_SUPABASE_URL=
+NEXT_PUBLIC_SUPABASE_ANON_KEY=
+STRIPE_SECRET_KEY=
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Repo & Public Sharing Workflow
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+This repo is public on GitHub at [github.com/thanhthaonguyen680/brand](https://github.com/thanhthaonguyen680/brand).
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Workflow for sharing / contributing:
 
-## Deploy on Vercel
+1. **Clone the repo:**
+   ```bash
+   git clone https://github.com/thanhthaonguyen680/brand.git
+   cd brand
+   ```
+2. **Create a new branch for your changes:**
+   ```bash
+   git checkout -b feature/your-feature-name
+   ```
+3. **Commit & push:**
+   ```bash
+   git push origin feature/your-feature-name
+   ```
+4. **Open a Pull Request** on GitHub for review before merging into `main`.
+5. Once merged into `main`, Vercel automatically deploys the new version to [https://kha-six.vercel.app/](https://kha-six.vercel.app/).
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Deploy
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+The project is automatically deployed on [Vercel](https://vercel.com) on every change to the `main` branch.
