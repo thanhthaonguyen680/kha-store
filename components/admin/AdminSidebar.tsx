@@ -4,7 +4,8 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import {
   LayoutDashboard, Package, ShoppingCart, Users,
-  Megaphone, Palette, ExternalLink, LogOut, UserPlus
+  Megaphone, Palette, ExternalLink, LogOut, UserPlus,
+  Building2, LayoutTemplate, Menu, PanelBottom, Info, MessageSquare, CreditCard,
 } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
@@ -16,7 +17,17 @@ const NAV = [
   { href: '/admin/customers', label: 'Khách Hàng', icon: Users },
   { href: '/admin/leads', label: 'Khách Hàng Tiềm Năng', icon: UserPlus },
   { href: '/admin/campaigns', label: 'Chiến Dịch', icon: Megaphone },
-  { href: '/admin/settings', label: 'Theme & Cài Đặt', icon: Palette },
+]
+
+const SETTINGS_NAV = [
+  { href: '/admin/settings', label: 'Theme & Giao Diện', icon: Palette },
+  { href: '/admin/settings/general', label: 'Thông Tin Chung', icon: Building2 },
+  { href: '/admin/settings/homepage', label: 'Trang Chủ', icon: LayoutTemplate },
+  { href: '/admin/settings/menu', label: 'Menu Điều Hướng', icon: Menu },
+  { href: '/admin/settings/footer', label: 'Footer', icon: PanelBottom },
+  { href: '/admin/settings/about', label: 'Trang Giới Thiệu', icon: Info },
+  { href: '/admin/settings/popup', label: 'Popup', icon: MessageSquare },
+  { href: '/admin/settings/payment', label: 'Thanh Toán', icon: CreditCard },
 ]
 
 export function AdminSidebar() {
@@ -36,9 +47,28 @@ export function AdminSidebar() {
         <p className="text-xs text-neutral-400 mt-1">Admin Dashboard</p>
       </div>
 
-      <nav className="flex-1 py-4">
+      <nav className="flex-1 py-4 overflow-y-auto">
         {NAV.map(({ href, label, icon: Icon }) => {
           const active = href === '/admin' ? pathname === '/admin' : pathname.startsWith(href)
+          return (
+            <Link
+              key={href}
+              href={href}
+              className={`flex items-center gap-3 px-6 py-3 text-sm transition-colors ${
+                active ? 'bg-[#c9a96e] text-white' : 'text-neutral-400 hover:text-white hover:bg-neutral-800'
+              }`}
+            >
+              <Icon className="w-4 h-4" />
+              {label}
+            </Link>
+          )
+        })}
+
+        <p className="px-6 pt-5 pb-2 text-[10px] font-semibold tracking-widest text-neutral-500 uppercase">
+          Cài Đặt
+        </p>
+        {SETTINGS_NAV.map(({ href, label, icon: Icon }) => {
+          const active = pathname === href
           return (
             <Link
               key={href}
