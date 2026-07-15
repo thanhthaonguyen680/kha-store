@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation'
 import {
   LayoutDashboard, Package, ShoppingCart, Users,
   Megaphone, Palette, ExternalLink, LogOut, UserPlus,
-  Building2, LayoutTemplate, Menu, PanelBottom, Info, MessageSquare, CreditCard,
+  Building2, LayoutTemplate, Menu, PanelBottom, Info, MessageSquare, CreditCard, FileText,
 } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
@@ -17,6 +17,7 @@ const NAV = [
   { href: '/admin/customers', label: 'Khách Hàng', icon: Users },
   { href: '/admin/leads', label: 'Khách Hàng Tiềm Năng', icon: UserPlus },
   { href: '/admin/campaigns', label: 'Chiến Dịch', icon: Megaphone },
+  { href: '/admin/pages', label: 'Trang Nội Dung', icon: FileText },
 ]
 
 const SETTINGS_NAV = [

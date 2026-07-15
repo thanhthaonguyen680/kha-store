@@ -13,6 +13,15 @@ export type Category = {
   created_at: string
 }
 
+export type Page = {
+  id: string
+  title: string
+  slug: string
+  content: string | null
+  created_at: string
+  updated_at: string
+}
+
 export type ProductSize = {
   size: string
   stock: number
