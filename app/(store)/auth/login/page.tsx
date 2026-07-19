@@ -119,12 +119,12 @@ export default function LoginPage() {
               <form onSubmit={handleSetPasswordSubmit(onSetPassword)} className="space-y-4">
                 <div className="space-y-2">
                   <Label htmlFor="password">Mật khẩu mới</Label>
-                  <Input id="password" type="password" {...registerSetPassword('password')} />
+                  <Input id="password" type="password" autoComplete="new-password" {...registerSetPassword('password')} />
                   {setPasswordErrors.password && <p className="text-red-500 text-xs">{setPasswordErrors.password.message}</p>}
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="confirm">Nhập lại mật khẩu</Label>
-                  <Input id="confirm" type="password" {...registerSetPassword('confirm')} />
+                  <Input id="confirm" type="password" autoComplete="new-password" {...registerSetPassword('confirm')} />
                   {setPasswordErrors.confirm && <p className="text-red-500 text-xs">{setPasswordErrors.confirm.message}</p>}
                 </div>
                 <Button variant="brand" type="submit" className="w-full" disabled={loading}>
@@ -156,12 +156,12 @@ export default function LoginPage() {
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="email">Email</Label>
-            <Input id="email" type="email" {...register('email')} />
+            <Input id="email" type="email" autoComplete="username" {...register('email')} />
             {errors.email && <p className="text-red-500 text-xs">{errors.email.message}</p>}
           </div>
           <div className="space-y-2">
             <Label htmlFor="password">Mật khẩu</Label>
-            <Input id="password" type="password" {...register('password')} />
+            <Input id="password" type="password" autoComplete="current-password" {...register('password')} />
             {errors.password && <p className="text-red-500 text-xs">{errors.password.message}</p>}
           </div>
           <Button variant="brand" type="submit" className="w-full" disabled={loading}>

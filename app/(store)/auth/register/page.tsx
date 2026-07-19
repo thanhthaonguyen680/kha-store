@@ -81,22 +81,22 @@ export default function RegisterPage() {
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div className="space-y-2">
             <Label>Họ và tên</Label>
-            <Input {...register('full_name')} />
+            <Input autoComplete="name" {...register('full_name')} />
             {errors.full_name && <p className="text-red-500 text-xs">{errors.full_name.message}</p>}
           </div>
           <div className="space-y-2">
             <Label>Email</Label>
-            <Input type="email" {...register('email')} />
+            <Input type="email" autoComplete="username" {...register('email')} />
             {errors.email && <p className="text-red-500 text-xs">{errors.email.message}</p>}
           </div>
           <div className="space-y-2">
             <Label>Mật khẩu</Label>
-            <Input type="password" {...register('password')} />
+            <Input type="password" autoComplete="new-password" {...register('password')} />
             {errors.password && <p className="text-red-500 text-xs">{errors.password.message}</p>}
           </div>
           <div className="space-y-2">
             <Label>Xác nhận mật khẩu</Label>
-            <Input type="password" {...register('confirm')} />
+            <Input type="password" autoComplete="new-password" {...register('confirm')} />
             {errors.confirm && <p className="text-red-500 text-xs">{errors.confirm.message}</p>}
           </div>
           <Button variant="brand" type="submit" className="w-full" disabled={loading}>

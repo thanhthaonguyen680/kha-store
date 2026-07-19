@@ -1,4 +1,4 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import { Playfair_Display, Inter } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import { createClient } from '@/lib/supabase/server'
@@ -43,6 +43,11 @@ export async function generateMetadata(): Promise<Metadata> {
       title: `${name} — Luxury Fashion`,
       description: 'Thời trang luxury cao cấp — nơi phong cách gặp gỡ sự tinh tế.',
       applicationName: name,
+      appleWebApp: {
+        capable: true,
+        statusBarStyle: 'default',
+        title: name,
+      },
       ...(favicon && {
         icons: { icon: favicon, apple: favicon },
       }),
@@ -51,7 +56,22 @@ export async function generateMetadata(): Promise<Metadata> {
     return {
       title: 'KHA — Luxury Fashion',
       description: 'Thời trang luxury cao cấp — nơi phong cách gặp gỡ sự tinh tế.',
+      appleWebApp: { capable: true, statusBarStyle: 'default', title: 'KHA' },
     }
+  }
+}
+
+export async function generateViewport(): Promise<Viewport> {
+  try {
+    const supabase = await createClient()
+    const { data } = await supabase.from('store_settings').select('primary_color').eq('id', 1).single()
+    return {
+      themeColor: isValidHexColor(data?.primary_color) ? data.primary_color : '#1a1a1a',
+      width: 'device-width',
+      initialScale: 1,
+    }
+  } catch {
+    return { themeColor: '#1a1a1a', width: 'device-width', initialScale: 1 }
   }
 }
 
