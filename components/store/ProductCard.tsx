@@ -33,12 +33,12 @@ export function ProductCard({ product }: ProductCardProps) {
             </div>
           )}
           {product.compare_price && product.compare_price > product.price && (
-            <span className="absolute top-3 left-3 bg-[#c9a96e] text-white text-xs px-2 py-1">
+            <span className="absolute top-3 left-3 bg-[var(--color-brand-secondary)] text-white text-xs px-2 py-1">
               SALE
             </span>
           )}
           {product.featured && (
-            <span className="absolute top-3 right-3 bg-neutral-900 text-white text-xs px-2 py-1">
+            <span className="absolute top-3 right-3 bg-[var(--color-brand-primary)] text-white text-xs px-2 py-1">
               NEW
             </span>
           )}
@@ -48,7 +48,7 @@ export function ProductCard({ product }: ProductCardProps) {
               e.preventDefault()
               addItem(product)
             }}
-            className="absolute bottom-0 left-0 right-0 bg-neutral-900 text-white text-xs tracking-widest uppercase py-3 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center gap-2"
+            className="absolute bottom-0 left-0 right-0 bg-[var(--color-brand-primary)] text-white text-xs tracking-widest uppercase py-3 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center gap-2"
           >
             <ShoppingBag className="w-4 h-4" />
             {t.products.add_to_cart}

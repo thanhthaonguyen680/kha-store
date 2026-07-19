@@ -25,7 +25,7 @@ export default async function SalePage() {
   return (
     <div className="max-w-7xl mx-auto px-4 py-12">
       <div className="mb-10">
-        <p className="text-xs tracking-[0.3em] uppercase text-[#c9a96e] mb-2">Ưu Đãi</p>
+        <p className="text-xs tracking-[0.3em] uppercase text-[var(--color-brand-secondary)] mb-2">Ưu Đãi</p>
         <h1 className="text-3xl font-bold">Khuyến Mãi</h1>
       </div>
 

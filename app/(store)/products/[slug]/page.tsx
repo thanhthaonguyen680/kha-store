@@ -64,7 +64,7 @@ export default function ProductDetailPage() {
     return (
       <div className="max-w-7xl mx-auto px-4 py-20 text-center">
         <p className="text-neutral-500 mb-6">Không tìm thấy sản phẩm</p>
-        <Button asChild><Link href="/products">Quay Lại</Link></Button>
+        <Button variant="brand" asChild><Link href="/products">Quay Lại</Link></Button>
       </div>
     )
   }
@@ -117,7 +117,7 @@ export default function ProductDetailPage() {
                   key={i}
                   onClick={() => setSelectedImage(i)}
                   className={`relative aspect-square bg-neutral-100 overflow-hidden border-2 transition-colors ${
-                    selectedImage === i ? 'border-neutral-900' : 'border-transparent'
+                    selectedImage === i ? 'border-[var(--color-brand-primary)]' : 'border-transparent'
                   }`}
                 >
                   <Image src={img} alt="" fill className="object-cover" />
@@ -130,7 +130,7 @@ export default function ProductDetailPage() {
         {/* Info */}
         <div className="lg:pt-4">
           {product.category && (
-            <p className="text-xs tracking-widest uppercase text-[#c9a96e] mb-3">
+            <p className="text-xs tracking-widest uppercase text-[var(--color-brand-secondary)] mb-3">
               {product.category.name}
             </p>
           )}
@@ -173,10 +173,10 @@ export default function ProductDetailPage() {
                     onClick={() => { setSelectedSize(s.size); setQuantity(1) }}
                     className={`w-12 h-10 border text-sm transition-colors ${
                       selectedSize === s.size
-                        ? 'border-neutral-900 bg-neutral-900 text-white'
+                        ? 'border-[var(--color-brand-primary)] bg-[var(--color-brand-primary)] text-white'
                         : s.stock <= 0
                         ? 'border-neutral-200 text-neutral-300 cursor-not-allowed line-through'
-                        : 'border-neutral-300 hover:border-neutral-900'
+                        : 'border-neutral-300 hover:border-[var(--color-brand-primary)]'
                     }`}
                   >
                     {s.size}
@@ -210,6 +210,7 @@ export default function ProductDetailPage() {
 
               <div className="flex gap-3">
                 <Button
+                  variant="brand"
                   size="lg"
                   className="flex-1"
                   onClick={() => addItem(product, quantity, selectedSize)}

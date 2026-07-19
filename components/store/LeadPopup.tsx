@@ -93,7 +93,7 @@ export function LeadPopup({
                 required
               />
               {error && <p className="text-red-500 text-xs">{error}</p>}
-              <Button type="submit" className="w-full" disabled={submitting}>
+              <Button variant="brand" type="submit" className="w-full" disabled={submitting}>
                 {submitting ? 'Đang gửi...' : 'Gửi Thông Tin'}
               </Button>
             </form>

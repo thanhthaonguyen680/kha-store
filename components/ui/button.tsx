@@ -11,7 +11,8 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default: 'bg-neutral-900 text-white hover:bg-neutral-700 focus-visible:ring-neutral-900',
-        gold: 'bg-[#c9a96e] text-white hover:bg-[#b8925a] focus-visible:ring-[#c9a96e]',
+        brand: 'bg-[var(--color-brand-primary)] text-white hover:opacity-90 focus-visible:ring-[var(--color-brand-primary)]',
+        gold: 'bg-[var(--color-brand-secondary)] text-white hover:opacity-90 focus-visible:ring-[var(--color-brand-secondary)]',
         outline: 'border border-neutral-900 bg-transparent text-neutral-900 hover:bg-neutral-900 hover:text-white',
         ghost: 'text-neutral-900 hover:bg-neutral-100',
         destructive: 'bg-red-600 text-white hover:bg-red-700',

@@ -82,7 +82,7 @@ export default async function ProductsPage({ searchParams }: PageProps) {
   return (
     <div className="max-w-7xl mx-auto px-4 py-12">
       <div className="mb-10">
-        <p className="text-xs tracking-[0.3em] uppercase text-[#c9a96e] mb-2">Khám Phá</p>
+        <p className="text-xs tracking-[0.3em] uppercase text-[var(--color-brand-secondary)] mb-2">Khám Phá</p>
         <h1 className="text-3xl font-bold">{pageTitle}</h1>
       </div>
 

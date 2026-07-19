@@ -112,7 +112,7 @@ export default function CheckoutPage() {
     return (
       <div className="max-w-2xl mx-auto px-4 py-20 text-center">
         <p className="text-neutral-500 mb-6">Giỏ hàng trống</p>
-        <Button onClick={() => router.push('/products')}>Tiếp Tục Mua Sắm</Button>
+        <Button variant="brand" onClick={() => router.push('/products')}>Tiếp Tục Mua Sắm</Button>
       </div>
     )
   }
@@ -257,7 +257,7 @@ export default function CheckoutPage() {
                 <label
                   key={method.value}
                   className={`flex items-center gap-4 p-4 border-2 cursor-pointer transition-colors ${
-                    paymentMethod === method.value ? 'border-neutral-900 bg-neutral-50' : 'border-neutral-200 hover:border-neutral-400'
+                    paymentMethod === method.value ? 'border-[var(--color-brand-primary)] bg-neutral-50' : 'border-neutral-200 hover:border-neutral-400'
                   }`}
                 >
                   <input
@@ -276,7 +276,7 @@ export default function CheckoutPage() {
             </div>
 
             {paymentMethod === 'bank_transfer' && (
-              <div className="mt-4 bg-[#f5f0e8] p-5 text-sm flex gap-5">
+              <div className="mt-4 bg-[var(--color-brand-accent)] p-5 text-sm flex gap-5">
                 {settings.bank_qr_url && (
                   <div className="relative w-32 h-32 flex-shrink-0 bg-white">
                     <Image src={settings.bank_qr_url} alt="QR chuyển khoản" fill className="object-contain" />
@@ -292,21 +292,21 @@ export default function CheckoutPage() {
             )}
 
             {paymentMethod === 'paypal' && (
-              <div className="mt-4 bg-[#f5f0e8] p-5 text-sm space-y-1.5">
+              <div className="mt-4 bg-[var(--color-brand-accent)] p-5 text-sm space-y-1.5">
                 <p><span className="text-neutral-500">Tài khoản PayPal:</span> <span className="font-medium">{settings.paypal_account || 'Đang cập nhật'}</span></p>
                 <p className="text-neutral-500 pt-2">Vui lòng ghi chú số điện thoại khi chuyển. Đơn hàng sẽ được xử lý sau khi xác nhận đã nhận thanh toán.</p>
               </div>
             )}
           </div>
 
-          <Button type="submit" size="lg" className="w-full" disabled={loading}>
+          <Button variant="brand" type="submit" size="lg" className="w-full" disabled={loading}>
             {loading ? 'Đang xử lý...' : `Đặt Hàng — ${formatPrice(total)}`}
           </Button>
         </div>
 
         {/* Right: Order Summary */}
         <div className="lg:col-span-2">
-          <div className="bg-[#f5f0e8] p-6 sticky top-24">
+          <div className="bg-[var(--color-brand-accent)] p-6 sticky top-24">
             <h2 className="text-lg font-semibold mb-6">Đơn Hàng ({items.length} sản phẩm)</h2>
             <div className="space-y-4 mb-6">
               {items.map(({ product, quantity, size }) => (
@@ -315,7 +315,7 @@ export default function CheckoutPage() {
                     {product.images[0] && (
                       <Image src={product.images[0]} alt={product.name} fill className="object-cover" />
                     )}
-                    <span className="absolute -top-1 -right-1 w-5 h-5 bg-neutral-900 text-white text-xs flex items-center justify-center">
+                    <span className="absolute -top-1 -right-1 w-5 h-5 bg-[var(--color-brand-primary)] text-white text-xs flex items-center justify-center">
                       {quantity}
                     </span>
                   </div>

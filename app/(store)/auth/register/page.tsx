@@ -59,7 +59,7 @@ export default function RegisterPage() {
           <p className="text-neutral-500 text-sm mb-6">
             Chúng tôi đã gửi link xác nhận đến email của bạn. Vui lòng kiểm tra hộp thư.
           </p>
-          <Button asChild><Link href="/auth/login">Đăng Nhập</Link></Button>
+          <Button variant="brand" asChild><Link href="/auth/login">Đăng Nhập</Link></Button>
         </div>
       </div>
     )
@@ -99,7 +99,7 @@ export default function RegisterPage() {
             <Input type="password" {...register('confirm')} />
             {errors.confirm && <p className="text-red-500 text-xs">{errors.confirm.message}</p>}
           </div>
-          <Button type="submit" className="w-full" disabled={loading}>
+          <Button variant="brand" type="submit" className="w-full" disabled={loading}>
             {loading ? 'Đang tạo tài khoản...' : 'Tạo Tài Khoản'}
           </Button>
         </form>

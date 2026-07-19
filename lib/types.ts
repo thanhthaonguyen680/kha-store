@@ -163,6 +163,7 @@ export type StoreSettings = {
   footer_support_links: MenuItem[] | null
   footer_copyright: string | null
   footer_payment_text: string | null
+  member_banner_enabled: boolean
   updated_at: string
 }
 

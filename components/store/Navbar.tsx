@@ -68,7 +68,7 @@ export function Navbar({ logoUrl, menuItems }: { logoUrl?: string | null; menuIt
             >
               <ShoppingBag className="w-5 h-5" />
               {count > 0 && (
-                <span className="absolute -top-2 -right-2 bg-[#c9a96e] text-white text-[10px] w-4 h-4 flex items-center justify-center">
+                <span className="absolute -top-2 -right-2 bg-[var(--color-brand-secondary)] text-white text-[10px] w-4 h-4 flex items-center justify-center">
                   {count}
                 </span>
               )}

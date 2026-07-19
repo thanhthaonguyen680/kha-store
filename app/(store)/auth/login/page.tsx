@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
@@ -16,16 +16,47 @@ const schema = z.object({
   password: z.string().min(6, 'Mật khẩu ít nhất 6 ký tự'),
 })
 
+const setPasswordSchema = z.object({
+  password: z.string().min(6, 'Mật khẩu ít nhất 6 ký tự'),
+  confirm: z.string().min(6, 'Nhập lại mật khẩu'),
+}).refine((data) => data.password === data.confirm, {
+  message: 'Mật khẩu không khớp',
+  path: ['confirm'],
+})
+
 type FormData = z.infer<typeof schema>
+type SetPasswordData = z.infer<typeof setPasswordSchema>
 
 export default function LoginPage() {
   const router = useRouter()
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const [checkingInvite, setCheckingInvite] = useState(true)
+  const [isInviteFlow, setIsInviteFlow] = useState(false)
+  const [passwordSet, setPasswordSet] = useState(false)
 
   const { register, handleSubmit, formState: { errors } } = useForm<FormData>({
     resolver: zodResolver(schema),
   })
+
+  const {
+    register: registerSetPassword,
+    handleSubmit: handleSetPasswordSubmit,
+    formState: { errors: setPasswordErrors },
+  } = useForm<SetPasswordData>({ resolver: zodResolver(setPasswordSchema) })
+
+  useEffect(() => {
+    const hash = window.location.hash
+    const search = window.location.search
+    // Supabase redirects invite/recovery links back here with either a PKCE
+    // "code" param or (implicit flow) an access_token in the hash, usually
+    // alongside "type=invite"/"type=recovery" — check broadly for any of them.
+    const params = /type=invite|type=recovery|code=|access_token=/
+    if (params.test(hash) || params.test(search)) {
+      setIsInviteFlow(true)
+    }
+    setCheckingInvite(false)
+  }, [])
 
   const onSubmit = async (data: FormData) => {
     setLoading(true)
@@ -42,6 +73,69 @@ export default function LoginPage() {
       router.push('/account')
       router.refresh()
     }
+  }
+
+  const onSetPassword = async (data: SetPasswordData) => {
+    setLoading(true)
+    setError('')
+    const supabase = createClient()
+    const { error } = await supabase.auth.updateUser({ password: data.password })
+    if (error) {
+      setError(error.message)
+      setLoading(false)
+    } else {
+      setPasswordSet(true)
+      setLoading(false)
+      setTimeout(() => {
+        router.push('/account')
+        router.refresh()
+      }, 1500)
+    }
+  }
+
+  if (checkingInvite) return null
+
+  if (isInviteFlow) {
+    return (
+      <div className="min-h-screen flex items-center justify-center px-4">
+        <div className="w-full max-w-sm">
+          <div className="text-center mb-8">
+            <Link href="/" className="text-2xl font-bold tracking-[0.3em]">KHA</Link>
+            <h1 className="text-xl font-semibold mt-6 mb-2">Đặt Mật Khẩu</h1>
+            <p className="text-sm text-neutral-500">Tạo mật khẩu để hoàn tất kích hoạt tài khoản</p>
+          </div>
+
+          {passwordSet ? (
+            <div className="bg-green-50 border border-green-200 text-green-700 text-sm p-3 text-center">
+              ✓ Đặt mật khẩu thành công! Đang chuyển hướng...
+            </div>
+          ) : (
+            <>
+              {error && (
+                <div className="bg-red-50 border border-red-200 text-red-700 text-sm p-3 mb-4">
+                  {error}
+                </div>
+              )}
+              <form onSubmit={handleSetPasswordSubmit(onSetPassword)} className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="password">Mật khẩu mới</Label>
+                  <Input id="password" type="password" {...registerSetPassword('password')} />
+                  {setPasswordErrors.password && <p className="text-red-500 text-xs">{setPasswordErrors.password.message}</p>}
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="confirm">Nhập lại mật khẩu</Label>
+                  <Input id="confirm" type="password" {...registerSetPassword('confirm')} />
+                  {setPasswordErrors.confirm && <p className="text-red-500 text-xs">{setPasswordErrors.confirm.message}</p>}
+                </div>
+                <Button variant="brand" type="submit" className="w-full" disabled={loading}>
+                  {loading ? 'Đang lưu...' : 'Đặt Mật Khẩu'}
+                </Button>
+              </form>
+            </>
+          )}
+        </div>
+      </div>
+    )
   }
 
   return (
@@ -70,7 +164,7 @@ export default function LoginPage() {
             <Input id="password" type="password" {...register('password')} />
             {errors.password && <p className="text-red-500 text-xs">{errors.password.message}</p>}
           </div>
-          <Button type="submit" className="w-full" disabled={loading}>
+          <Button variant="brand" type="submit" className="w-full" disabled={loading}>
             {loading ? 'Đang đăng nhập...' : 'Đăng Nhập'}
           </Button>
         </form>

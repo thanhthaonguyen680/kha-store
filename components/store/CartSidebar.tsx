@@ -51,7 +51,7 @@ export function CartSidebar() {
                     <div className="flex-1 min-w-0">
                       <h3 className="text-sm font-medium truncate">{product.name}</h3>
                       {size && <p className="text-xs text-neutral-500 mt-0.5">Size: {size}</p>}
-                      <p className="text-sm text-[#c9a96e] mt-1">{formatPrice(product.price)}</p>
+                      <p className="text-sm text-[var(--color-brand-secondary)] mt-1">{formatPrice(product.price)}</p>
                       <div className="flex items-center gap-3 mt-3">
                         <button
                           onClick={() => updateQuantity(product.id, quantity - 1, size)}
@@ -84,7 +84,7 @@ export function CartSidebar() {
                   <span className="font-medium">{formatPrice(totalPrice())}</span>
                 </div>
                 <p className="text-xs text-neutral-400">{t.cart.shipping_note}</p>
-                <Button className="w-full" size="lg" asChild onClick={closeCart}>
+                <Button variant="brand" className="w-full" size="lg" asChild onClick={closeCart}>
                   <Link href="/checkout">{t.cart.checkout}</Link>
                 </Button>
                 <Button variant="outline" className="w-full" onClick={closeCart} asChild>

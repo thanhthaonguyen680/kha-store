@@ -20,6 +20,9 @@
   --font-heading: 'Playfair Display', serif;
   --font-body: 'Inter', sans-serif;
   --font-script: 'Halimun', cursive;
+  --color-brand-primary: #1a1a1a;
+  --color-brand-secondary: #c9a96e;
+  --color-brand-accent: #f5f0e8;
 }
 
 * {

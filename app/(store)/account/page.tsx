@@ -91,14 +91,14 @@ function AccountContent() {
           <nav className="space-y-1">
             <button
               onClick={() => setTab('orders')}
-              className={`flex items-center gap-3 w-full px-3 py-2 text-sm transition-colors ${tab === 'orders' ? 'bg-neutral-900 text-white' : 'text-neutral-600 hover:bg-neutral-100'}`}
+              className={`flex items-center gap-3 w-full px-3 py-2 text-sm transition-colors ${tab === 'orders' ? 'bg-[var(--color-brand-primary)] text-white' : 'text-neutral-600 hover:bg-neutral-100'}`}
             >
               <Package className="w-4 h-4" />
               Đơn Hàng
             </button>
             <button
               onClick={() => setTab('profile')}
-              className={`flex items-center gap-3 w-full px-3 py-2 text-sm transition-colors ${tab === 'profile' ? 'bg-neutral-900 text-white' : 'text-neutral-600 hover:bg-neutral-100'}`}
+              className={`flex items-center gap-3 w-full px-3 py-2 text-sm transition-colors ${tab === 'profile' ? 'bg-[var(--color-brand-primary)] text-white' : 'text-neutral-600 hover:bg-neutral-100'}`}
             >
               <User className="w-4 h-4" />
               Hồ Sơ
@@ -115,7 +115,7 @@ function AccountContent() {
                 <div className="text-center py-16 text-neutral-400">
                   <Package className="w-12 h-12 mx-auto mb-4 opacity-30" />
                   <p>Chưa có đơn hàng nào</p>
-                  <Button className="mt-4" onClick={() => router.push('/products')}>
+                  <Button variant="brand" className="mt-4" onClick={() => router.push('/products')}>
                     Mua Sắm Ngay
                   </Button>
                 </div>
@@ -164,7 +164,7 @@ function AccountContent() {
                   <Label>Số điện thoại</Label>
                   <Input defaultValue={profile.phone || ''} />
                 </div>
-                <Button>Lưu Thay Đổi</Button>
+                <Button variant="brand">Lưu Thay Đổi</Button>
               </div>
             </div>
           )}

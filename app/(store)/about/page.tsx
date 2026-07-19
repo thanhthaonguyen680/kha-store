@@ -23,7 +23,7 @@ export default async function AboutPage() {
 
   return (
     <div className="max-w-3xl mx-auto px-4 py-16">
-      <p className="text-xs tracking-[0.3em] uppercase text-[#c9a96e] mb-2">Giới Thiệu</p>
+      <p className="text-xs tracking-[0.3em] uppercase text-[var(--color-brand-secondary)] mb-2">Giới Thiệu</p>
       <h1 className="text-3xl font-bold mb-8">{settings.about_title || 'Về Chúng Tôi'}</h1>
 
       {settings.about_image_url && (

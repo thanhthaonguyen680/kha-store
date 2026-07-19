@@ -10,11 +10,11 @@ import { SettingsPageHeader } from '@/components/admin/SettingsPageHeader'
 
 const FIELDS = [
   'hero_badge', 'hero_title_image_url', 'hero_title', 'hero_subtitle', 'hero_image_url', 'banner_text',
-  'hero2_title', 'hero2_subtitle', 'hero2_image_url', 'hero2_cta',
+  'hero2_title', 'hero2_subtitle', 'hero2_image_url', 'hero2_cta', 'member_banner_enabled',
 ] as const
 
 export default function HomepageSettingsPage() {
-  const { settings, update, loading, saving, saved, error, save } = useStoreSettings()
+  const { settings, setSettings, update, loading, saving, saved, error, save } = useStoreSettings()
 
   if (loading) return <div className="text-center py-20 text-neutral-400">Đang tải...</div>
 
@@ -80,6 +80,26 @@ export default function HomepageSettingsPage() {
               <Label>Text nút CTA</Label>
               <Input value={settings.hero2_cta || ''} onChange={(e) => update('hero2_cta', e.target.value)} placeholder="Khám Phá Ngay" />
             </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <div className="flex items-center justify-between">
+              <CardTitle>Banner Đặc Quyền Thành Viên</CardTitle>
+              <label className="flex items-center gap-2 text-sm cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={settings.member_banner_enabled ?? true}
+                  onChange={(e) => setSettings((prev) => ({ ...prev, member_banner_enabled: e.target.checked }))}
+                  className="w-4 h-4 accent-[#c9a96e] cursor-pointer"
+                />
+                Hiện banner
+              </label>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <p className="text-xs text-neutral-400">Khối "Free Shipping / Tạo Tài Khoản Miễn Phí" ở cuối trang chủ. Bỏ chọn để ẩn hoàn toàn khối này khỏi trang chủ.</p>
           </CardContent>
         </Card>
       </div>

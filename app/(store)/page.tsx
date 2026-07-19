@@ -65,6 +65,7 @@ export default async function HomePage() {
       hero2Title={settings.hero2_title || null}
       hero2Subtitle={settings.hero2_subtitle || null}
       hero2Cta={settings.hero2_cta || null}
+      memberBannerEnabled={settings.member_banner_enabled ?? true}
     />
   )
 }

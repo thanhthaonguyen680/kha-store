@@ -365,6 +365,7 @@ create table public.store_settings (
   ]'::jsonb,
   footer_copyright text default '© 2026 KHA. All rights reserved.',
   footer_payment_text text default 'Thanh toán an toàn với Chuyển Khoản, PayPal & COD',
+  member_banner_enabled boolean not null default true,
   updated_at timestamptz not null default now()
 );
 

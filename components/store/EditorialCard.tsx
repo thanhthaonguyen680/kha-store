@@ -39,7 +39,7 @@ export function EditorialCard({ product }: { product: Product }) {
               </span>
             )}
             {product.compare_price && product.compare_price > product.price && (
-              <span className="bg-[#c9a96e] text-white text-[10px] tracking-widest uppercase px-2 py-1 font-medium">
+              <span className="bg-[var(--color-brand-secondary)] text-white text-[10px] tracking-widest uppercase px-2 py-1 font-medium">
                 SALE
               </span>
             )}

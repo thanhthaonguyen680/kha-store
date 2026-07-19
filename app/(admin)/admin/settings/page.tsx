@@ -6,11 +6,21 @@ import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { SettingsImageInput } from '@/components/admin/SettingsImageInput'
 import { SettingsPageHeader } from '@/components/admin/SettingsPageHeader'
+import { ThemePresetPicker, ThemePreset } from '@/components/admin/ThemePresetPicker'
 
 const FIELDS = ['primary_color', 'secondary_color', 'accent_color', 'font_heading', 'font_body', 'logo_url', 'favicon_url'] as const
 
 export default function ThemeSettingsPage() {
-  const { settings, update, loading, saving, saved, error, save } = useStoreSettings()
+  const { settings, setSettings, update, loading, saving, saved, error, save } = useStoreSettings()
+
+  const applyPreset = (preset: ThemePreset) => {
+    setSettings((prev) => ({
+      ...prev,
+      primary_color: preset.primary,
+      secondary_color: preset.secondary,
+      accent_color: preset.accent,
+    }))
+  }
 
   if (loading) return <div className="text-center py-20 text-neutral-400">Đang tải...</div>
 
@@ -27,6 +37,19 @@ export default function ThemeSettingsPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="space-y-6">
+          <Card>
+            <CardHeader><CardTitle>Theme Có Sẵn</CardTitle></CardHeader>
+            <CardContent>
+              <ThemePresetPicker
+                primary={settings.primary_color}
+                secondary={settings.secondary_color}
+                accent={settings.accent_color}
+                onApply={applyPreset}
+              />
+              <p className="text-xs text-neutral-400 mt-3">Chọn 1 theme để áp màu nhanh, sau đó có thể tinh chỉnh thêm bên dưới. Nhớ bấm &quot;Lưu Thay Đổi&quot; để áp dụng.</p>
+            </CardContent>
+          </Card>
+
           <Card>
             <CardHeader><CardTitle>Màu Sắc Theme</CardTitle></CardHeader>
             <CardContent className="space-y-4">

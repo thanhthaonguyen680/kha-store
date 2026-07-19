@@ -23,6 +23,7 @@ interface HomeContentProps {
   hero2Title?: string | null
   hero2Subtitle?: string | null
   hero2Cta?: string | null
+  memberBannerEnabled?: boolean
 }
 
 export function HomeContent({
@@ -37,19 +38,20 @@ export function HomeContent({
   hero2Title,
   hero2Subtitle,
   hero2Cta,
+  memberBannerEnabled = true,
 }: HomeContentProps) {
   const { t } = useTranslation()
 
   return (
     <>
-      {/* ── Hero 1 ── Full viewport dark overlay */}
+      {/* ── Hero 1 ── Full viewport dark overlay (kept neutral so it doesn't tint the photo) */}
       <section className="relative h-[90vh] bg-neutral-900 flex items-center justify-center overflow-hidden">
         <div
           className="absolute inset-0 bg-cover bg-center opacity-40"
           style={{ backgroundImage: `url('${heroImageUrl || DEFAULT_HERO}')` }}
         />
         <div className="relative text-center text-white px-4 max-w-3xl mx-auto">
-          <p className="text-xs tracking-[0.4em] uppercase text-[#c9a96e] mb-4">{heroBadge || t.hero.badge}</p>
+          <p className="text-xs tracking-[0.4em] uppercase text-[var(--color-brand-secondary)] mb-4">{heroBadge || t.hero.badge}</p>
           {heroTitleImageUrl ? (
             <div className="mb-6 flex justify-center">
               <img
@@ -92,10 +94,10 @@ export function HomeContent({
         <section className="py-20 max-w-7xl mx-auto px-4">
           <div className="flex items-end justify-between mb-12">
             <div>
-              <p className="text-xs tracking-[0.3em] uppercase text-[#c9a96e] mb-2">{t.sections.featured_label}</p>
+              <p className="text-xs tracking-[0.3em] uppercase text-[var(--color-brand-secondary)] mb-2">{t.sections.featured_label}</p>
               <h2 className="text-3xl font-bold">{t.sections.featured_title}</h2>
             </div>
-            <Link href="/products?featured=true" className="text-sm tracking-widest uppercase border-b border-neutral-900 hover:text-[#c9a96e] hover:border-[#c9a96e] transition-colors">
+            <Link href="/products?featured=true" className="text-sm tracking-widest uppercase border-b border-neutral-900 hover:text-[var(--color-brand-secondary)] hover:border-[var(--color-brand-secondary)] transition-colors">
               {t.sections.view_all}
             </Link>
           </div>
@@ -110,9 +112,9 @@ export function HomeContent({
       {/* ── Hero 2 ── Split layout */}
       <section className="grid grid-cols-1 lg:grid-cols-2 min-h-[70vh]">
         {/* Text side */}
-        <div className="bg-[#f5f0e8] flex items-center justify-center px-12 py-20 order-2 lg:order-1">
+        <div className="bg-[var(--color-brand-accent)] flex items-center justify-center px-12 py-20 order-2 lg:order-1">
           <div className="max-w-md">
-            <p className="text-xs tracking-[0.4em] uppercase text-[#c9a96e] mb-4">
+            <p className="text-xs tracking-[0.4em] uppercase text-[var(--color-brand-secondary)] mb-4">
               {t.hero.badge}
             </p>
             <h2 className="text-4xl md:text-5xl font-bold leading-tight mb-6">
@@ -121,7 +123,7 @@ export function HomeContent({
             <p className="text-neutral-600 leading-relaxed mb-8">
               {hero2Subtitle || 'Những thiết kế mới nhất cho mùa này — tinh tế, sang trọng và đầy cá tính.'}
             </p>
-            <Button size="lg" asChild>
+            <Button variant="brand" size="lg" asChild>
               <Link href="/products">{hero2Cta || t.hero.cta}</Link>
             </Button>
           </div>
@@ -143,10 +145,10 @@ export function HomeContent({
         <section className="py-20 max-w-7xl mx-auto px-4">
           <div className="flex items-end justify-between mb-12">
             <div>
-              <p className="text-xs tracking-[0.3em] uppercase text-[#c9a96e] mb-2">{t.sections.new_label}</p>
+              <p className="text-xs tracking-[0.3em] uppercase text-[var(--color-brand-secondary)] mb-2">{t.sections.new_label}</p>
               <h2 className="text-3xl font-bold">{t.sections.new_title}</h2>
             </div>
-            <Link href="/products" className="text-sm tracking-widest uppercase border-b border-neutral-900 hover:text-[#c9a96e] hover:border-[#c9a96e] transition-colors">
+            <Link href="/products" className="text-sm tracking-widest uppercase border-b border-neutral-900 hover:text-[var(--color-brand-secondary)] hover:border-[var(--color-brand-secondary)] transition-colors">
               {t.sections.view_all}
             </Link>
           </div>
@@ -159,23 +161,25 @@ export function HomeContent({
       )}
 
       {/* ── Member Banner ── */}
-      <section className="py-24 bg-neutral-900 text-white text-center">
-        <div className="max-w-2xl mx-auto px-4">
-          <p className="text-xs tracking-[0.4em] uppercase text-[#c9a96e] mb-4">{t.banner.label}</p>
-          <h2 className="text-4xl font-bold mb-6">{t.banner.title1}<br />{t.banner.title2}</h2>
-          <p className="text-neutral-400 mb-8">{t.banner.subtitle}</p>
-          <Button variant="gold" size="lg" asChild>
-            <Link href="/auth/register">{t.banner.cta}</Link>
-          </Button>
-        </div>
-      </section>
+      {memberBannerEnabled && (
+        <section className="py-24 bg-[var(--color-brand-primary)] text-white text-center">
+          <div className="max-w-2xl mx-auto px-4">
+            <p className="text-xs tracking-[0.4em] uppercase text-[var(--color-brand-secondary)] mb-4">{t.banner.label}</p>
+            <h2 className="text-4xl font-bold mb-6">{t.banner.title1}<br />{t.banner.title2}</h2>
+            <p className="text-neutral-400 mb-8">{t.banner.subtitle}</p>
+            <Button variant="gold" size="lg" asChild>
+              <Link href="/auth/register">{t.banner.cta}</Link>
+            </Button>
+          </div>
+        </section>
+      )}
 
       {/* ── Empty state ── */}
       {featuredProducts.length === 0 && newArrivals.length === 0 && (
         <section className="py-20 text-center">
           <div className="max-w-md mx-auto px-4">
             <p className="text-neutral-400 mb-6">{t.empty.no_products}</p>
-            <Button asChild>
+            <Button variant="brand" asChild>
               <Link href="/admin">{t.empty.go_admin}</Link>
             </Button>
           </div>

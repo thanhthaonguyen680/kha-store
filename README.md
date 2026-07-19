@@ -18,6 +18,7 @@ A full-stack e-commerce storefront and admin panel for a luxury fashion brand, b
 | Forms          | react-hook-form + zod                                            |
 | Client state   | Zustand (cart)                                                   |
 | i18n           | Custom VI/EN dictionary (`lib/i18n`)                             |
+| Analytics      | [Vercel Analytics](https://vercel.com/analytics) (pageviews/visitors) |
 
 ## Features
 
@@ -120,3 +121,5 @@ This repo is public at [github.com/thanhthaonguyen680/kha-store](https://github.
 ## Deployment
 
 The project auto-deploys via [Vercel](https://vercel.com) on every push to `main`. Any new `supabase/migration_*.sql` file must be run manually in the Supabase SQL Editor after deploying — migrations are not applied automatically. Each new migration should also be folded into `supabase/schema.sql` so it stays a complete, accurate schema for anyone setting up a fresh project.
+
+**Analytics:** the app ships with `@vercel/analytics` already wired into `app/layout.tsx`. After deploying, go to the project on Vercel → **Analytics** tab → **Enable** to start seeing visitor/pageview data. No extra env vars or code changes needed.
