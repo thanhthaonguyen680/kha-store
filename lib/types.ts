@@ -139,6 +139,7 @@ export type StoreSettings = {
   hero_subtitle: string
   hero_image_url: string | null
   hero_images: string[]
+  hero_links: string[]
   hero2_title: string | null
   hero2_subtitle: string | null
   hero2_image_url: string | null

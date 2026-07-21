@@ -11,6 +11,7 @@ Categories, navigation menu, hero/about/popup copy, theme colors, and fonts all 
 `supabase/schema.sql` is the **complete, up-to-date schema** (as of 2026-07-15 it was consolidated from over a dozen incremental migration files — see git history). When adding a column, table, or storage bucket:
 
 - Prefer appending to the most recently-created migration file that touches the same table/feature, rather than creating a new one-line file every time — the user has explicitly asked not to let `supabase/` sprawl into dozens of tiny files. `add column if not exists` and `create or replace function` are idempotent, so re-running a whole existing file (even the parts already applied) is always safe. Only start a genuinely new file for a distinct new feature area (new table, new RLS policies, a different part of the app).
+- Migration filenames carry a Unix-timestamp prefix (seconds since epoch, UTC midnight of the creation date) for tracking: `migration_<unix-timestamp>_<name>.sql` (e.g. `migration_1783900800_storage_products.sql`). New files follow this pattern from creation; when appending to an existing file, keep its original timestamp prefix as-is — it marks when the file was first created, not last touched (git history has the edit dates).
 - Also fold the same change directly into `supabase/schema.sql` in the same commit, so it stays accurate for anyone setting up a **fresh** project. Don't let the two drift apart again.
 - Migrations are **never auto-applied**. Always tell the user explicitly to run the new file in the Supabase SQL Editor after you push code — code referencing a column/table that doesn't exist yet will fail at runtime, not at build time.
 - Update `lib/types.ts` in the same change whenever a DB column/table changes shape.
@@ -34,7 +35,7 @@ Any new upload target (`ImageUpload.tsx`, `SettingsImageInput.tsx` with a new `b
 2. Public `select` policy on `storage.objects` for that `bucket_id`.
 3. Admin-gated `insert`/`update`/`delete` policies for that `bucket_id`.
 
-Copy the shape from `supabase/migration_storage_products.sql` or `migration_storage_settings.sql`.
+Copy the shape from `supabase/migration_1783900800_storage_products.sql` or `migration_1783900800_storage_settings.sql`.
 
 ## 5. Never swallow Supabase errors silently
 

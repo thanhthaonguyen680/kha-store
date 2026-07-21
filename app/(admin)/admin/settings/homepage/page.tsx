@@ -10,7 +10,7 @@ import { ImageUpload } from '@/components/admin/ImageUpload'
 import { SettingsPageHeader } from '@/components/admin/SettingsPageHeader'
 
 const FIELDS = [
-  'hero_badge', 'hero_title_image_url', 'hero_title', 'hero_subtitle', 'hero_images', 'banner_text',
+  'hero_badge', 'hero_title_image_url', 'hero_title', 'hero_subtitle', 'hero_images', 'hero_links', 'banner_text',
   'hero2_title', 'hero2_subtitle', 'hero2_image_url', 'hero2_cta', 'member_banner_enabled',
 ] as const
 
@@ -19,6 +19,14 @@ export default function HomepageSettingsPage() {
 
   const heroImages: string[] = settings.hero_images || []
   const setHeroImages = (images: string[]) => setSettings((prev) => ({ ...prev, hero_images: images }))
+  const heroLinks: string[] = settings.hero_links || []
+  const setHeroLink = (index: number, value: string) => {
+    setSettings((prev) => {
+      const next = [...(prev.hero_links || [])]
+      next[index] = value
+      return { ...prev, hero_links: next }
+    })
+  }
 
   if (loading) return <div className="text-center py-20 text-neutral-400">Đang tải...</div>
 
@@ -59,6 +67,24 @@ export default function HomepageSettingsPage() {
               <ImageUpload images={heroImages} onChange={setHeroImages} bucket="settings" />
               <p className="text-xs text-neutral-400">Ảnh đầu tiên hiện cùng tiêu đề/nút bên trên (có lớp phủ tối để dễ đọc chữ). Thêm từ ảnh thứ 2 trở đi sẽ tự động chạy carousel — hiện sáng đầy đủ, không chữ, không phủ tối.</p>
             </div>
+            {heroImages.length > 0 && (
+              <div className="space-y-2">
+                <Label>Link khi bấm vào từng ảnh (để trống nếu không muốn cho bấm)</Label>
+                <div className="space-y-2">
+                  {heroImages.map((url, i) => (
+                    <div key={i} className="flex items-center gap-2">
+                      <img src={url} alt="" className="w-10 h-10 object-cover flex-shrink-0 bg-neutral-100" />
+                      <Input
+                        value={heroLinks[i] || ''}
+                        onChange={(e) => setHeroLink(i, e.target.value)}
+                        placeholder="/products/ten-san-pham"
+                        className="flex-1"
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
             <div className="space-y-2">
               <Label>Banner thông báo (ví dụ: FREE SHIP đơn trên 2tr)</Label>
               <Input value={settings.banner_text || ''} onChange={(e) => update('banner_text', e.target.value)} />

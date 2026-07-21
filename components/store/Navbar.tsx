@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { ShoppingBag, User, Search, Menu, X } from 'lucide-react'
+import { ShoppingBag, User, Search, Menu, X, ChevronDown } from 'lucide-react'
 import { useCart } from '@/store/cart'
 import { useTranslation } from '@/lib/i18n/context'
 import { LanguageSwitcher } from './LanguageSwitcher'
@@ -34,8 +34,9 @@ export function Navbar({
   supportLinks?: NavMenuItem[] | null
 }) {
   const { totalItems, openCart } = useCart()
-  const { locale, t } = useTranslation()
+  const { locale } = useTranslation()
   const [menuOpen, setMenuOpen] = useState(false)
+  const [catsOpen, setCatsOpen] = useState(false)
   const count = totalItems()
 
   const links = menuItems?.length ? menuItems : DEFAULT_LINKS
@@ -99,74 +100,87 @@ export function Navbar({
         </div>
       </header>
 
-      {/* Full-screen navigation overlay */}
+      {/* Left drawer navigation */}
       {menuOpen && (
-        <div className="fixed inset-0 z-50 bg-white overflow-y-auto">
-          <button
+        <>
+          <div
             onClick={() => setMenuOpen(false)}
-            className="fixed top-4 right-4 z-10 w-10 h-10 border border-neutral-300 bg-white flex items-center justify-center hover:bg-neutral-100 transition-colors"
-            aria-label="Đóng menu"
-          >
-            <X className="w-5 h-5" />
-          </button>
+            className="fixed left-0 right-0 top-16 bottom-0 z-40 bg-black/40"
+          />
+          <div className="fixed left-0 top-0 bottom-0 z-50 w-full max-w-[340px] bg-white overflow-y-auto">
+            <div className="flex items-center h-16 px-6 border-b border-neutral-200">
+              <button
+                onClick={() => setMenuOpen(false)}
+                className="hover:opacity-60 transition-opacity"
+                aria-label="Đóng menu"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
 
-          <div className="max-w-md mx-auto px-6 py-24">
-            <nav className="space-y-4 mb-12">
-              {NAV_LINKS.map((link, i) => (
-                <Link
-                  key={`${link.href}-${i}`}
-                  href={link.href}
-                  onClick={() => setMenuOpen(false)}
-                  className="block text-2xl md:text-3xl font-medium tracking-wide hover:text-[var(--color-brand-secondary)] transition-colors"
-                  style={{ fontFamily: 'var(--font-heading)' }}
-                >
-                  {link.label}
-                </Link>
-              ))}
-            </nav>
-
-            {cats.length > 0 && (
-              <div className="mb-10">
-                <h3 className="text-xs font-semibold tracking-widest uppercase text-neutral-400 mb-4">Danh Mục</h3>
-                <div className="space-y-3">
-                  {cats.map((cat) => (
+            <div className="px-6 py-8 space-y-8">
+              <nav className="space-y-3">
+                {NAV_LINKS.map((link, i) => {
+                  const isFeatured = link.href.includes('featured=true')
+                  if (isFeatured && cats.length > 0) {
+                    return (
+                      <div key={`${link.href}-${i}`}>
+                        <button
+                          type="button"
+                          onClick={() => setCatsOpen((v) => !v)}
+                          className="w-full flex items-center justify-between text-xs font-semibold tracking-widest uppercase text-neutral-900 hover:text-[var(--color-brand-secondary)] transition-colors"
+                        >
+                          {link.label}
+                          <ChevronDown className={`w-3.5 h-3.5 transition-transform ${catsOpen ? 'rotate-180' : ''}`} />
+                        </button>
+                        {catsOpen && (
+                          <div className="mt-3 space-y-2 pl-3">
+                            {cats.map((cat) => (
+                              <Link
+                                key={cat.slug}
+                                href={`/products?category=${cat.slug}`}
+                                onClick={() => setMenuOpen(false)}
+                                className="block text-xs tracking-widest uppercase text-neutral-500 hover:text-neutral-900 transition-colors"
+                              >
+                                {cat.name}
+                              </Link>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    )
+                  }
+                  return (
                     <Link
-                      key={cat.slug}
-                      href={`/products?category=${cat.slug}`}
+                      key={`${link.href}-${i}`}
+                      href={link.href}
                       onClick={() => setMenuOpen(false)}
-                      className="block text-sm tracking-widest uppercase text-neutral-600 hover:text-neutral-900 transition-colors"
+                      className="block text-xs font-semibold tracking-widest uppercase text-neutral-900 hover:text-[var(--color-brand-secondary)] transition-colors"
                     >
-                      {cat.name}
+                      {link.label}
+                    </Link>
+                  )
+                })}
+              </nav>
+
+              <div>
+                <h3 className="text-xs font-semibold tracking-widest uppercase text-neutral-900 mb-3">Hỗ Trợ</h3>
+                <div className="space-y-2 pl-1">
+                  {SUPPORT_LINKS.map((link, i) => (
+                    <Link
+                      key={`${link.href}-${i}`}
+                      href={link.href}
+                      onClick={() => setMenuOpen(false)}
+                      className="block text-xs tracking-widest uppercase text-neutral-500 hover:text-neutral-900 transition-colors"
+                    >
+                      {link.label}
                     </Link>
                   ))}
                 </div>
               </div>
-            )}
-
-            <div>
-              <h3 className="text-xs font-semibold tracking-widest uppercase text-neutral-400 mb-4">Hỗ Trợ</h3>
-              <div className="space-y-3">
-                {SUPPORT_LINKS.map((link, i) => (
-                  <Link
-                    key={`${link.href}-${i}`}
-                    href={link.href}
-                    onClick={() => setMenuOpen(false)}
-                    className="block text-sm tracking-widest uppercase text-neutral-600 hover:text-neutral-900 transition-colors"
-                  >
-                    {link.label}
-                  </Link>
-                ))}
-                <Link
-                  href="/account"
-                  onClick={() => setMenuOpen(false)}
-                  className="block text-sm tracking-widest uppercase text-neutral-600 hover:text-neutral-900 transition-colors"
-                >
-                  {t.nav.account}
-                </Link>
-              </div>
             </div>
           </div>
-        </div>
+        </>
       )}
     </>
   )

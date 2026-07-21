@@ -19,6 +19,7 @@ interface HomeContentProps {
   heroBadge?: string | null
   heroImageUrl?: string | null
   heroImages?: string[]
+  heroLinks?: string[]
   heroTitleImageUrl?: string | null
   heroTitle?: string | null
   heroSubtitle?: string | null
@@ -35,6 +36,7 @@ export function HomeContent({
   heroBadge,
   heroImageUrl,
   heroImages,
+  heroLinks,
   heroTitleImageUrl,
   heroTitle,
   heroSubtitle,
@@ -61,15 +63,18 @@ export function HomeContent({
     <>
       {/* ── Hero 1 ── Carousel; only slide 0 carries the title/CTA + dark overlay */}
       <section className="relative h-[90vh] bg-neutral-900 flex items-center justify-center overflow-hidden">
-        {slides.map((src, i) => (
-          <div
-            key={i}
-            className={`absolute inset-0 bg-cover bg-center transition-opacity duration-1000 ${
-              i === activeSlide ? 'opacity-100' : 'opacity-0'
-            } ${i === 0 ? 'brightness-[0.6]' : ''}`}
-            style={{ backgroundImage: `url('${src}')` }}
-          />
-        ))}
+        {slides.map((src, i) => {
+          const link = heroLinks?.[i]
+          const className = `absolute inset-0 bg-cover bg-center transition-opacity duration-1000 ${
+            i === activeSlide ? 'opacity-100' : 'opacity-0 pointer-events-none'
+          } ${i === 0 ? 'brightness-[0.6]' : ''} ${link ? 'cursor-pointer' : ''}`
+          const style = { backgroundImage: `url('${src}')` }
+          return link ? (
+            <Link key={i} href={link} className={className} style={style} aria-label="Xem sản phẩm" />
+          ) : (
+            <div key={i} className={className} style={style} />
+          )
+        })}
 
         {activeSlide === 0 && (
           <div className="relative text-center text-white px-4 max-w-3xl mx-auto">
