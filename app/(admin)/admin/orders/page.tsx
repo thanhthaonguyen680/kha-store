@@ -8,6 +8,7 @@ import { formatPrice, ORDER_STATUS_LABELS, PAYMENT_STATUS_LABELS, PAYMENT_METHOD
 import { Card } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { Trash2 } from 'lucide-react'
 
 type OrderStatus = 'pending' | 'confirmed' | 'processing' | 'shipped' | 'delivered' | 'cancelled' | 'refunded'
 
@@ -47,6 +48,14 @@ export default function AdminOrdersPage() {
     const supabase = createClient()
     await supabase.from('orders').update({ payment_status }).eq('id', orderId)
     setOrders(orders.map((o) => o.id === orderId ? { ...o, payment_status } : o))
+  }
+
+  const deleteOrder = async (orderId: string) => {
+    if (!confirm('Xóa đơn hàng này? Hành động này không thể hoàn tác.')) return
+    const supabase = createClient()
+    const { error } = await supabase.from('orders').delete().eq('id', orderId)
+    if (error) { alert(`Lỗi khi xóa đơn hàng: ${error.message}`); return }
+    setOrders(orders.filter((o) => o.id !== orderId))
   }
 
   const address = (order: Order) => {
@@ -91,6 +100,7 @@ export default function AdminOrdersPage() {
                 <th className="text-left px-6 py-3">Trạng Thái</th>
                 <th className="text-left px-6 py-3">Cập Nhật TT</th>
                 <th className="text-left px-6 py-3">Ngày</th>
+                <th className="px-6 py-3"></th>
               </tr>
             </thead>
             <tbody>
@@ -140,6 +150,15 @@ export default function AdminOrdersPage() {
                   </td>
                   <td className="px-6 py-4 text-xs text-neutral-400">
                     {new Date(order.created_at).toLocaleDateString('vi-VN')}
+                  </td>
+                  <td className="px-6 py-4 text-right">
+                    <button
+                      onClick={() => deleteOrder(order.id)}
+                      className="p-1.5 hover:bg-red-50 rounded"
+                      title="Xóa đơn hàng"
+                    >
+                      <Trash2 className="w-4 h-4 text-red-400" />
+                    </button>
                   </td>
                 </tr>
               ))}

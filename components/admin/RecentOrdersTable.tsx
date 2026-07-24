@@ -6,6 +6,7 @@ import { createClient } from '@/lib/supabase/client'
 import { Order, OrderStatus, PaymentStatus } from '@/lib/types'
 import { formatPrice, ORDER_STATUS_LABELS, PAYMENT_STATUS_LABELS } from '@/lib/utils'
 import { Badge } from '@/components/ui/badge'
+import { Trash2 } from 'lucide-react'
 
 const STATUS_BADGE: Record<string, 'success' | 'warning' | 'destructive' | 'info' | 'default'> = {
   delivered: 'success', shipped: 'info', confirmed: 'info',
@@ -42,6 +43,14 @@ export function RecentOrdersTable() {
     setOrders(orders.map((o) => o.id === orderId ? { ...o, payment_status } : o))
   }
 
+  const deleteOrder = async (orderId: string) => {
+    if (!confirm('Xóa đơn hàng này? Hành động này không thể hoàn tác.')) return
+    const supabase = createClient()
+    const { error } = await supabase.from('orders').delete().eq('id', orderId)
+    if (error) { alert(`Lỗi khi xóa đơn hàng: ${error.message}`); return }
+    setOrders(orders.filter((o) => o.id !== orderId))
+  }
+
   if (loading) return <p className="text-center py-8 text-neutral-400 text-sm">Đang tải...</p>
   if (orders.length === 0) return <p className="text-center py-8 text-neutral-400 text-sm">Chưa có đơn hàng nào</p>
 
@@ -55,6 +64,7 @@ export function RecentOrdersTable() {
           <th className="text-left px-6 py-3">Trạng thái</th>
           <th className="text-left px-6 py-3">Thanh toán</th>
           <th className="text-left px-6 py-3">Ngày</th>
+          <th className="px-6 py-3"></th>
         </tr>
       </thead>
       <tbody>
@@ -100,6 +110,15 @@ export function RecentOrdersTable() {
             </td>
             <td className="px-6 py-4 text-xs text-neutral-400">
               {new Date(order.created_at).toLocaleDateString('vi-VN')}
+            </td>
+            <td className="px-6 py-4 text-right">
+              <button
+                onClick={() => deleteOrder(order.id)}
+                className="p-1.5 hover:bg-red-50 rounded"
+                title="Xóa đơn hàng"
+              >
+                <Trash2 className="w-4 h-4 text-red-400" />
+              </button>
             </td>
           </tr>
         ))}

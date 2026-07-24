@@ -186,6 +186,11 @@ create policy "Admins can update orders" on public.orders
     exists (select 1 from public.profiles where id = auth.uid() and role = 'admin')
   );
 
+create policy "Admins can delete orders" on public.orders
+  for delete using (
+    exists (select 1 from public.profiles where id = auth.uid() and role = 'admin')
+  );
+
 create trigger orders_updated_at
   before update on public.orders
   for each row execute procedure public.update_updated_at();
